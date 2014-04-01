@@ -1,0 +1,3 @@
+int drawable drawer_shadow 0x7f020000
+int drawable ic_drawer_dark 0x7f020001
+int drawable ic_drawer_light 0x7f020002

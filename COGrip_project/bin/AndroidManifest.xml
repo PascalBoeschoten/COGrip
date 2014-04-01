@@ -16,11 +16,19 @@
         <activity
             android:name="com.example.cogrip_project.MainActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.example.cogrip_project.Walkthrough_activity"
+            android:label="@string/title_activity_walkthrough_activity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.main.MainWrapper"
+            android:label="@string/title_activity_main_wrapper" >
         </activity>
     </application>
 

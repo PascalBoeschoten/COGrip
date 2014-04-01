@@ -1,0 +1,114 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fafafa"
+    tools:context="com.example.cogrip_project.Walkthrough_activity$PlaceholderFragment" >
+
+    <!-- Topimage, splitter, how-to -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <!-- Topimage -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:background="#000000" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:src="@drawable/topheading" />
+        </LinearLayout>
+
+        <!-- Splitter -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="15dp"
+            android:background="#c4e50c" >
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#fafafa"
+            android:gravity="center_horizontal" >
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:src="@drawable/descriptiontext" />
+        </RelativeLayout>
+
+        <!-- CLOSER Topimage, splitter, how-to -->
+    </LinearLayout>
+
+    <!-- Description-image, description-text -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#fafafa"
+        android:orientation="vertical" >
+
+        <android.support.v4.view.ViewPager
+		   android:id="@+id/pager"
+		   android:layout_width="fill_parent"
+		   android:layout_height="125dp"
+		   tools:context="com.example.cogrip_project.Walkthrough_activity" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="3.11"
+            android:gravity="center_vertical" >
+            
+            <RadioGroup
+			    android:id="@+id/walkthroughRadioGroup"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" 
+			    android:orientation="horizontal"
+			    android:layout_centerHorizontal="true">
+			
+			    <RadioButton
+			        android:id="@+id/walkthroughRadio0"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:checked="true"/>
+			
+			    <RadioButton
+			        android:id="@+id/walkthroughRadio1"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"/>
+			
+			    <RadioButton
+			        android:id="@+id/walkthroughRadio2"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"/>
+			</RadioGroup>
+
+            <TextView
+                android:id="@+id/skipTextBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="SKIP"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
