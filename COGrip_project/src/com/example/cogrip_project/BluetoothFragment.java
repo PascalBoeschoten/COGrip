@@ -34,7 +34,7 @@ public class BluetoothFragment extends Fragment {
 			.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
 	// Member fields
-	private BluetoothAdapter mAdapter;
+	private BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
 	private AcceptThread mSecureAcceptThread;
 	private AcceptThread mInsecureAcceptThread;
 	private ConnectThread mConnectThread;
@@ -82,19 +82,6 @@ public class BluetoothFragment extends Fragment {
 
 	public BluetoothFragment() {
 		super();
-	}
-
-	/**
-	 * Constructor. Prepares a new BluetoothChat session.
-	 * 
-	 * @param context
-	 *            The UI Activity Context
-	 * @param handler
-	 *            A Handler to send messages back to the UI Activity
-	 */
-	public BluetoothFragment(Context context, Handler handler) {
-		mAdapter = BluetoothAdapter.getDefaultAdapter();
-		mState = BluetoothState.STATE_NONE;
 	}
 
 	@Override
@@ -215,7 +202,7 @@ public class BluetoothFragment extends Fragment {
 	 * @param device
 	 *            The BluetoothDevice that has been connected
 	 */
-	public synchronized void connected(BluetoothSocket socket,
+	private synchronized void connected(BluetoothSocket socket,
 			BluetoothDevice device, final String socketType) {
 
 		if (D)
