@@ -10,10 +10,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -24,19 +21,13 @@ public class BluetoothFragment extends Fragment {
 	private static final boolean D = true;
 
 	// Name for the SDP record when creating server socket
-	private static final String NAME_SECURE = "BluetoothChatSecure";
-	private static final String NAME_INSECURE = "BluetoothChatInsecure";
-
+	private static final String SDP_NAME= "COGrip";
 	// Unique UUID for this application
-	private static final UUID MY_UUID_SECURE = UUID
-			.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
-	private static final UUID MY_UUID_INSECURE = UUID
-			.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
-
+	private static final UUID SDP_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); //Standard SerialPortService ID
+	
 	// Member fields
 	private BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
-	private AcceptThread mSecureAcceptThread;
-	private AcceptThread mInsecureAcceptThread;
+	private AcceptThread mAcceptThread;
 	private ConnectThread mConnectThread;
 	private ConnectedThread mConnectedThread;
 	private BluetoothState mState = BluetoothState.STATE_NONE;
@@ -152,13 +143,9 @@ public class BluetoothFragment extends Fragment {
 		setState(BluetoothState.STATE_LISTEN);
 
 		// Start the thread to listen on a BluetoothServerSocket
-		if (mSecureAcceptThread == null) {
-			mSecureAcceptThread = new AcceptThread(true);
-			mSecureAcceptThread.start();
-		}
-		if (mInsecureAcceptThread == null) {
-			mInsecureAcceptThread = new AcceptThread(false);
-			mInsecureAcceptThread.start();
+		if (mAcceptThread == null) {
+			mAcceptThread = new AcceptThread();
+			mAcceptThread.start();
 		}
 	}
 
@@ -220,15 +207,10 @@ public class BluetoothFragment extends Fragment {
 			mConnectedThread = null;
 		}
 
-		// Cancel the accept thread because we only want to connect to one
-		// device
-		if (mSecureAcceptThread != null) {
-			mSecureAcceptThread.cancel();
-			mSecureAcceptThread = null;
-		}
-		if (mInsecureAcceptThread != null) {
-			mInsecureAcceptThread.cancel();
-			mInsecureAcceptThread = null;
+		// Cancel the accept thread because we only want to connect to one		// device
+		if (mAcceptThread != null) {
+			mAcceptThread.cancel();
+			mAcceptThread = null;
 		}
 
 		// Start the thread to manage the connection and perform transmissions
@@ -258,14 +240,9 @@ public class BluetoothFragment extends Fragment {
 			mConnectedThread = null;
 		}
 
-		if (mSecureAcceptThread != null) {
-			mSecureAcceptThread.cancel();
-			mSecureAcceptThread = null;
-		}
-
-		if (mInsecureAcceptThread != null) {
-			mInsecureAcceptThread.cancel();
-			mInsecureAcceptThread = null;
+		if (mAcceptThread != null) {
+			mAcceptThread.cancel();
+			mAcceptThread = null;
 		}
 		setState(BluetoothState.STATE_NONE);
 	}
@@ -318,26 +295,16 @@ public class BluetoothFragment extends Fragment {
 	 */
 	private class AcceptThread extends Thread {
 		// The local server socket
-		private final BluetoothServerSocket mmServerSocket;
+		private BluetoothServerSocket mmServerSocket;
 		private String mSocketType;
 
-		public AcceptThread(boolean secure) {
-			BluetoothServerSocket tmp = null;
-			mSocketType = secure ? "Secure" : "Insecure";
-
+		public AcceptThread() {
 			// Create a new listening server socket
 			try {
-				if (secure) {
-					tmp = mAdapter.listenUsingRfcommWithServiceRecord(
-							NAME_SECURE, MY_UUID_SECURE);
-				} else {
-					tmp = mAdapter.listenUsingInsecureRfcommWithServiceRecord(
-							NAME_INSECURE, MY_UUID_INSECURE);
-				}
+				mmServerSocket = mAdapter.listenUsingRfcommWithServiceRecord(SDP_NAME, SDP_UUID);
 			} catch (IOException e) {
 				Log.e(TAG, "Socket Type: " + mSocketType + "listen() failed", e);
 			}
-			mmServerSocket = tmp;
 		}
 
 		public void run() {
@@ -415,17 +382,10 @@ public class BluetoothFragment extends Fragment {
 			mmDevice = device;
 			BluetoothSocket tmp = null;
 			mSocketType = secure ? "Secure" : "Insecure";
-
-			// Get a BluetoothSocket for a connection with the
-			// given BluetoothDevice
+	        
+			// Get a BluetoothSocket for a connection with the given BluetoothDevice
 			try {
-				if (secure) {
-					tmp = device
-							.createRfcommSocketToServiceRecord(MY_UUID_SECURE);
-				} else {
-					tmp = device
-							.createInsecureRfcommSocketToServiceRecord(MY_UUID_INSECURE);
-				}
+				tmp = device.createRfcommSocketToServiceRecord(SDP_UUID);
 			} catch (IOException e) {
 				Log.e(TAG, "Socket Type: " + mSocketType + "create() failed", e);
 			}
