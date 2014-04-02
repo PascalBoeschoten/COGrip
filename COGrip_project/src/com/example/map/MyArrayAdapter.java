@@ -1,4 +1,4 @@
-package com.example.main;
+package com.example.map;
 
 import android.content.Context;
 import android.view.LayoutInflater;

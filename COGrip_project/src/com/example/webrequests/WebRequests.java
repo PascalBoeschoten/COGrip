@@ -18,11 +18,11 @@ import com.loopj.android.http.RequestParams;
 
 public class WebRequests
 {
-	private static final String BASE_URL 			=		"http://vasternorrlanuf.se/jakob/amsterdam/websrv.php?";
-	private static final String uploadSensorDataURL = 		"uploadSensorData";
-	private static final String getSensorDataURL 	= 		"getSensorData";
-	private static final String WEBSHOP_ITEMS_URL 	= 		".product/getAll";
-	private static final String UPLOAD_PRODUCT_URL	=		".product/create";
+	private static final String BASE_URL 					=		"http://vasternorrlanuf.se/jakob/amsterdam/websrv.php?";
+	private static final String uploadSensorDataURL 		= 		"uploadSensorData";
+	private static final String getNearbyCrowdedAreasURL 	= 		"getNearbyCrowdedAreas";
+	private static final String WEBSHOP_ITEMS_URL 			= 		".product/getAll";
+	private static final String UPLOAD_PRODUCT_URL			=		".product/create";
 	private static AsyncHttpClient client = new AsyncHttpClient();
 	
 	public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
@@ -47,12 +47,12 @@ public class WebRequests
 		get(uploadSensorDataURL, params, handler);
 	}
 	
-	public static void getSensorData(Context context, LatLng latlng, JsonHttpResponseHandler handler)
+	public static void getNearbyCrowdedAreas(Context context, LatLng latlng, JsonHttpResponseHandler handler)
 	{
 		RequestParams params = new RequestParams();
 		params.put("Lat", latlng.latitude);
 		params.put("Lng", latlng.longitude);
-		get(getSensorDataURL, params, handler);
+		get(getNearbyCrowdedAreasURL, params, handler);
 	}
 	
 }

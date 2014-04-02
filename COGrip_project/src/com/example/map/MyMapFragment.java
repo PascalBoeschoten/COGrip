@@ -1,4 +1,4 @@
-package com.example.main;
+package com.example.map;
 
 import java.util.List;
 import java.util.zip.Inflater;
@@ -17,7 +17,7 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.miun.entity.Task;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MyMapFragment extends MapFragment
 {
@@ -26,10 +26,14 @@ public class MyMapFragment extends MapFragment
 	private LatLngBounds.Builder builder;
 	private List crowdedList;
 	
-	public static MyMapFragment newInstance(List<CrowdPoint> crowdedList) {
+	public static MyMapFragment newInstance() {
 		MyMapFragment fragment = new MyMapFragment();
-		fragment.setCrowdedList(crowdedList);
+		//fragment.setCrowdedList(crowdedList);
 		return fragment;
+	}
+	
+	public MyMapFragment() {
+
 	}
 	
 	public void setCrowdedList(List<CrowdPoint> crowdedList)
@@ -81,5 +85,10 @@ public class MyMapFragment extends MapFragment
 	            getMap().setOnCameraChangeListener(null);
 			}
 	    });
+	}
+	
+	public void addMarker(LatLng latlng, int crowdness)
+	{
+		getMap().addMarker(new MarkerOptions().position(latlng));
 	}
 }

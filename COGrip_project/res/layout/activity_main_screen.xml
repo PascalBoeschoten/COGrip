@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/header">
+        
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mainContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_above="@+id/mainFooter">
+        
+        <FrameLayout
+        android:id="@+id/mainScreenFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/mainFooter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/footer_big"
+        android:weightSum="3">
+        
+        <RelativeLayout 
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent">
+            
+
+            
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent">
+            
+            
+            
+        </RelativeLayout>
+        
+        <RelativeLayout 
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent">
+            
+        </RelativeLayout>
+        
+        
+
+    </LinearLayout>
+
+</RelativeLayout>

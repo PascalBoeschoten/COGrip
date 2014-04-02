@@ -1,6 +1,12 @@
-package com.example.main;
+package com.example.map;
 
+import java.util.List;
 import java.util.Locale;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -26,6 +32,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.example.cogrip_project.*;
 import com.example.utils.constants;
+import com.example.webrequests.WebRequests;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -33,6 +40,9 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.example.entity.CrowdPoint;
 
 public class MainWrapper extends Activity {
     private DrawerLayout mDrawerLayout;
@@ -44,7 +54,7 @@ public class MainWrapper extends Activity {
     private String[] mPlanetTitles;
     
     //Map
-    GoogleMap map;
+    MyMapFragment myMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,15 +148,14 @@ public class MainWrapper extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
         {
-        	Log.d("Mada", "position: " + position);
         	if (position == 1)
         	{
     	    	//Loads a map into the fragment
-    	    	MapFragment mMapFragment = MyMapFragment.newInstance();
+        		myMapFragment = MyMapFragment.newInstance();
     	        FragmentManager fragmentManager = getFragmentManager();
-    	        fragmentManager.beginTransaction().replace(R.id.content_frame, mMapFragment).commit();
+    	        fragmentManager.beginTransaction().replace(R.id.content_frame, myMapFragment).commit();
     	        
-    	        
+    	        getNearbyCrowdedAreas();
         	}
         	
         	mDrawerList.setItemChecked(position, true);
@@ -155,6 +164,69 @@ public class MainWrapper extends Activity {
         	
         	
         }
+    }
+    
+    public void getNearbyCrowdedAreas()
+    {
+    	Log.d("Mada", "Skickar nu");
+    	WebRequests.getNearbyCrowdedAreas(getApplicationContext(), new LatLng(123, 324), new JsonHttpResponseHandler()
+    	{
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONArray response) 
+			{
+				Log.d("Mada", "success");
+				JSONArray jArray = response;
+				
+				for (int n=0;n<jArray.length();n++)
+				{
+					try
+					{
+						JSONObject jObj = jArray.getJSONObject(n);
+						Log.d("Mada", "Lat,Lng: " + jObj.get("Lat") + ", " + jObj.get("Lng"));
+						
+						double lat 		= Double.valueOf(jObj.get("Lat").toString());
+						double lng 		= Double.valueOf(jObj.get("Lng").toString());
+						int crowdness 	= Integer.valueOf(jObj.get("crowdness").toString());
+						LatLng latlng 	= new LatLng(lat, lng);
+						
+						myMapFragment.addMarker(latlng, 4);
+					} 
+					catch (JSONException e) 
+					{
+						e.printStackTrace();
+					}
+				}
+				
+				super.onSuccess(statusCode, headers, response);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					String responseBody, Throwable e) {
+				// TODO Auto-generated method stub
+				Log.d("Mada", "fail0");
+				super.onFailure(statusCode, headers, responseBody, e);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable e, JSONArray errorResponse) {
+				Log.d("Mada", "fail1");
+				super.onFailure(statusCode, headers, e, errorResponse);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers,
+					Throwable e, JSONObject errorResponse) {
+				// TODO Auto-generated method stub
+				Log.d("Mada", "fail2");
+				super.onFailure(statusCode, headers, e, errorResponse);
+			}
+			
+			
+    		
+    	});
     }
 
     private void selectItem(int position) {

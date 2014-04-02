@@ -27,15 +27,19 @@
         <activity
             android:name="com.example.cogrip_project.Walkthrough_activity"
             android:label="@string/title_activity_walkthrough_activity" >
+        </activity>
+        <activity
+            android:name="com.example.map.MainWrapper"
+            android:label="@string/title_activity_main_wrapper" >
+        </activity>
+        <activity 
+            android:name="com.example.main.MainScreen"
+            android:label="Mainscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.example.main.MainWrapper"
-            android:label="@string/title_activity_main_wrapper" >
         </activity>
         
          <!-- GoogleMaps api key-->

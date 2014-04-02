@@ -20,7 +20,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.main.MainWrapper;
+import com.example.map.MainWrapper;
 import com.example.walkthrough.FirstPageFragment;
 import com.example.walkthrough.SecondPageFragment;
 import com.example.walkthrough.ThirdPageFragment;
