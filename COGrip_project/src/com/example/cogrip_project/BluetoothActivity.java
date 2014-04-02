@@ -41,69 +41,7 @@ public class BluetoothActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_main);
-
-		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-		if (!mBluetoothAdapter.isEnabled()) {
-			Intent enableBluetooth = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableBluetooth, 0);
-		}
-
-		Log.d(TAG, "Checking paired devices...");
-		for (BluetoothDevice device : mBluetoothAdapter.getBondedDevices()) {
-			if (device.getName().equals(ARDUINODEVICENAME)) {
-				Log.d(TAG, "Found " + ARDUINODEVICENAME);
-				mDevice = device;
-				break;
-			}
-		}
-
-		try {
-			Log.d(TAG, "Opening socket...");
-			mSocket = mDevice.createRfcommSocketToServiceRecord(SPS_UUID);
-			mSocket.connect();
-			mOutputStream = mSocket.getOutputStream();
-			mInputStream = mSocket.getInputStream();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		mHandler = new Handler();
-		mWorkerThread = new Thread(new Runnable() {
-			private boolean stopWorker;
-
-			public void run() {
-				while (!Thread.currentThread().isInterrupted() && !stopWorker) {
-					try {
-						int bytesAvailable = mInputStream.available();
-						if (bytesAvailable > 0) {
-							int received = mInputStream.read();
-							Log.d(TAG, "Received " + (char) received);
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-		mWorkerThread.start();
-
-		mSendButton = (Button) findViewById(R.id.sendButton);
-		mTextField = (EditText) findViewById(R.id.bluetoothTestText);
-		mSendButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				byte[] bytes = mTextField.getText().toString().getBytes();
-				try {
-					Log.d(TAG, "Writing " + mTextField.getText());
-					mOutputStream.write(bytes);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		BluetoothService.launchService(this);
 	}
 }

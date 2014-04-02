@@ -9,12 +9,12 @@ import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -33,20 +33,21 @@ public class BluetoothService extends Service {
 	private Handler mHandler;
 	private Thread mWorkerThread;
 
-	private Button mSendButton;
-	private EditText mTextField;
 	private String TAG = this.getClass().getSimpleName();
+	private AudioManager mAudioManager;
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-
+		Log.d(TAG, "Received start command");
+		
+		mAudioManager = (AudioManager) getApplicationContext()
+		.getSystemService(Context.AUDIO_SERVICE);
+		
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
 		if (!mBluetoothAdapter.isEnabled()) {
-//			Intent enableBluetooth = new Intent(
-//					BluetoothAdapter.ACTION_REQUEST_ENABLE);
-//			startActivityForResult(enableBluetooth, 0);
-			return START_STICKY; 
+			stopSelf();
+			return START_STICKY;
 		}
 
 		Log.d(TAG, "Checking paired devices...");
@@ -77,8 +78,9 @@ public class BluetoothService extends Service {
 					try {
 						int bytesAvailable = mInputStream.available();
 						if (bytesAvailable > 0) {
-							int received = mInputStream.read();
+							char received = (char) mInputStream.read();
 							Log.d(TAG, "Received " + (char) received);
+							handleVolumeChange(received);
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -88,19 +90,32 @@ public class BluetoothService extends Service {
 		});
 		mWorkerThread.start();
 
-		mSendButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
-
 		return Service.START_STICKY;
+	}
+
+	protected void handleVolumeChange(char volumeChar) {
+		int volume;
+		try {
+			volume = Integer.parseInt(String.valueOf(volumeChar));
+		} catch (NumberFormatException e) {
+			Log.d(TAG, "Received unknown volume level char '" + volumeChar + "'");
+			return;
+		}
+		
+		int musicMaxVol = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+		int index = musicMaxVol / 4 * volume;
+		
+		Log.d(TAG, "Setting music to volume " + index + "/" + musicMaxVol);
+		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, index, 0);
 	}
 
 	public void sendStuff(byte[] bytes) {
 		try {
-			Log.d(TAG, "Writing " + mTextField.getText());
+			String s = "";
+			for (byte b : bytes) {
+				s += b;
+			}
+			Log.d(TAG, "Writing " + s);
 			mOutputStream.write(bytes);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -110,5 +125,18 @@ public class BluetoothService extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.d(TAG, "I am being destroyed");
+		mWorkerThread.interrupt();
+	}
+
+	public static void launchService(Context context) {
+		Log.d("", "Launching BluetoothService");
+		Intent i = new Intent(context, BluetoothService.class);
+		context.startService(i);
 	}
 }
