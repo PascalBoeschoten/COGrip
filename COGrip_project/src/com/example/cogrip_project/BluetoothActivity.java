@@ -21,27 +21,11 @@ import android.widget.EditText;
 
 public class BluetoothActivity extends Activity {
 
-	// Standard SerialPortService ID
-	public final static UUID SPS_UUID = UUID
-			.fromString("00001101-0000-1000-8000-00805f9b34fb");
-	public final static String ARDUINODEVICENAME = "OPIOT_BT_16";
-
-	private BluetoothAdapter mBluetoothAdapter;
-	private BluetoothDevice mDevice;
-	private BluetoothSocket mSocket;
-	private OutputStream mOutputStream;
-	private InputStream mInputStream;
-	private Handler mHandler;
-	private Thread mWorkerThread;
-
-	private Button mSendButton;
-	private EditText mTextField;
-	private String TAG = "BluetoothActivity";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		BluetoothService.launchService(this);
+		
 	}
 }

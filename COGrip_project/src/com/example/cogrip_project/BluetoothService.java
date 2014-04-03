@@ -15,8 +15,6 @@ import android.media.AudioManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 
 public class BluetoothService extends Service {
 
@@ -138,5 +136,11 @@ public class BluetoothService extends Service {
 		Log.d("", "Launching BluetoothService");
 		Intent i = new Intent(context, BluetoothService.class);
 		context.startService(i);
+	}
+	
+	public static void stopService(Context context) {
+		Log.d("", "Stopping BluetoothService");
+		Intent i = new Intent(context, BluetoothService.class);
+		context.stopService(i);
 	}
 }
