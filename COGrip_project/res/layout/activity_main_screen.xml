@@ -7,7 +7,7 @@
         android:id="@+id/header"
         android:layout_width="fill_parent"
         android:layout_height="54dp"
-        android:background="@drawable/header">
+        android:background="@drawable/topheaderimage">
         
     </RelativeLayout>
 

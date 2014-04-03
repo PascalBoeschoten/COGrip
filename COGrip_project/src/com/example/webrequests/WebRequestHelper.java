@@ -1,6 +1,7 @@
 package com.example.webrequests;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -42,23 +43,23 @@ public class WebRequestHelper
 					try
 					{
 						JSONObject jObj = jArray.getJSONObject(n);
-						Log.d("Mada", "Lat,Lng: " + jObj.get("Lat") + ", " + jObj.get("Lng"));
+						//Log.d("Mada", "Lat,Lng: " + jObj.get("Lat") + ", " + jObj.get("Lng"));
 						
 						double lat 		= Double.valueOf(jObj.get("Lat").toString());
 						double lng 		= Double.valueOf(jObj.get("Lng").toString());
 						LatLng latlng 	= new LatLng(lat, lng);
-//						String street	= jObj.get("Street").toString();
-//						String zip		= jObj.get("Zip").toString();
-//						String date		= jObj.get("Date").toString();
-//						int crowdness 	= Integer.valueOf(jObj.get("crowdness").toString());
+						String street	= jObj.get("Street").toString();
+						String zip		= jObj.get("Zip").toString();
+						String date		= jObj.get("Date").toString();
+						int crowdness 	= Integer.valueOf(jObj.get("Crowdness").toString());
 						
-						String street="a", zip="a", date = "a";
-						int crowdness = 0;
 						CrowdPoint cp = new CrowdPoint(latlng, street, zip, date, crowdness);
 						cpList.add(cp);
+						Log.d("Mada", "STREET ADDERSS: " + cpList.get(n).getStreet());
 					} 
 					catch (JSONException e) 
 					{
+						Log.d("Mada", "Jsonexception");
 						e.printStackTrace();
 					}
 				}
@@ -108,13 +109,11 @@ public class WebRequestHelper
 						double lat 		= Double.valueOf(jObj.get("Lat").toString());
 						double lng 		= Double.valueOf(jObj.get("Lng").toString());
 						LatLng latlng 	= new LatLng(lat, lng);
-//						String street	= jObj.get("Street").toString();
-//						String zip		= jObj.get("Zip").toString();
-//						String date		= jObj.get("Date").toString();
-//						int crowdness 	= Integer.valueOf(jObj.get("crowdness").toString());
+						String street	= jObj.get("Street").toString();
+						String zip		= jObj.get("Zip").toString();
+						String date		= jObj.get("Date").toString();
+						int crowdness 	= Integer.valueOf(jObj.get("Crowdness").toString());
 						
-						String street="a", zip="a", date = "a";
-						int crowdness = 0;
 						CrowdPoint cp = new CrowdPoint(latlng, street, zip, date, crowdness);
 						cpList.add(cp);
 					} 
@@ -147,35 +146,26 @@ public class WebRequestHelper
 	{
 		ctx = ctxArg;
 		
+		Random rand = new Random();
+		int lat = 52;
+		int latNext = rand.nextInt(40000) + 340000;
+		String latStr = String.valueOf(lat) + "." + String.valueOf(latNext);
+		double latToSend = Double.valueOf(latStr);
+		
+		int lng = 4;
+		int lngNext = rand.nextInt(860000) + 98000;
+		String lngStr = String.valueOf(lng) + "." + String.valueOf(lngNext);
+		double lngToSend = Double.valueOf(lngStr);
+		
+		LatLng latlng = new LatLng(latToSend, lngToSend);
+		
+		CrowdPoint cpToSend = new CrowdPoint(latlng, cp.getStreet(), cp.getZip(), cp.getDate(), cp.getCrowdness());
+		
 		Log.d("Mada", "Sending sensor data");
-		WebRequests.uploadSensorData(ctxArg, cp, new JsonHttpResponseHandler()
+		WebRequests.uploadSensorData(ctxArg, cpToSend, new JsonHttpResponseHandler()
     	{
 
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, String responseBody)
-			{
-				Log.d("Mada", "success");
-				super.onSuccess(statusCode, headers, responseBody);
-			}
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONArray response) 
-			{
-				Log.d("Mada", "success");
-				super.onSuccess(statusCode, headers, response);
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers,
-					String responseBody, Throwable e) {
-				// TODO Auto-generated method stub
-				Log.d("Mada", "fail0");
-				Toast.makeText(ctx, "Bad internet connection", Toast.LENGTH_SHORT).show();
-				super.onFailure(statusCode, headers, responseBody, e);
-			}
 			
-			
-    		
     	});
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class MyArrayListAdapter extends ArrayAdapter<CrowdPoint>
         }
 	    
 	    CrowdPoint cp = cpList.get(position);
+	    Log.d("Mada", "street address from arraylist" + cp.getStreet());
 	    view.dateView.setText(cp.getDate());
 	    view.zipView.setText(cp.getZip());
 	    view.streetView.setText(cp.getStreet());	    

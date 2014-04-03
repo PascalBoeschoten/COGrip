@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.example.cogrip_project.*;
+import com.example.cogrip_project.R;
 import com.example.entity.CrowdPoint;
 import com.example.webrequests.WebRequestHelper;
 import com.google.android.gms.maps.model.LatLng;
@@ -44,6 +45,7 @@ public class ListWrapper extends Fragment implements OnItemClickListener{
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	{
+		Log.d("Mada", "item clicked");
 		CrowdPoint cp = new CrowdPoint(new LatLng(52.444,33.333), "what", "the", "fuck", 5);
 		WebRequestHelper.sendSensorData(cp, getActivity().getApplicationContext());
 	}

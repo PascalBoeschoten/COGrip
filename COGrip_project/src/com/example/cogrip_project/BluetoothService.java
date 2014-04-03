@@ -117,8 +117,9 @@ public class BluetoothService extends Service {
 
 	protected void sendToDatabase(char volumeChar)
 	{
+		Log.d("Mada", "Sending from bluetooth");
 		CrowdPoint cp = new CrowdPoint(new LatLng(45435, 234), "Malstreet", "2343 23", "2014-04-03", Integer.parseInt(String.valueOf(volumeChar)));
-		//WebRequestHelper.sendSensorData(cp, this);
+		WebRequestHelper.sendSensorData(cp, this);
 	}
 	
 	protected void handleVolumeChange(char volumeChar) {

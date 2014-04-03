@@ -150,8 +150,8 @@ public class MainScreen extends Activity{
 	
 	public void setMarkerInfo(CrowdPoint cp)
 	{
-		markerStreet.setText("BlaBlaBla");
-		markerZip.setText("BLABLA");
-		markerDate.setText("BLA");
+		markerStreet.setText(cp.getStreet());
+		markerZip.setText(cp.getZip());
+		markerDate.setText(cp.getDate());
 	}
 }

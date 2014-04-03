@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +100,6 @@ public class MyMapFragment extends MapFragment
 		if (getMap() != null)
 		{
 			this.cpList = cpList;
-			
 			for (int n=0;n<this.cpList.size();n++)
 			{
 				CrowdPoint cp = cpList.get(n);
@@ -107,7 +107,7 @@ public class MyMapFragment extends MapFragment
 					.position(cp.getLatLng())
 					.icon(BitmapDescriptorFactory.fromResource(com.example.cogrip_project.R.drawable.pin_map_normal)));
 				
-				marker.setTitle("0");
+				marker.setTitle(String.valueOf(n));
 			}
 			
 			getMap().setOnMarkerClickListener(new OnMarkerClickListener()
