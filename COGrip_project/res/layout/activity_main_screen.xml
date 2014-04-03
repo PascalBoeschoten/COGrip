@@ -6,7 +6,7 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="fill_parent"
-        android:layout_height="54dp"
+        android:layout_height="60dp"
         android:background="@drawable/header">
         
     </RelativeLayout>
@@ -117,7 +117,7 @@
     <LinearLayout
         android:id="@+id/mainFooter"
         android:layout_width="fill_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/footer_big"
         android:weightSum="3"
@@ -130,10 +130,11 @@
 
             <ImageView
                 android:id="@+id/feedImageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_centerHorizontal="true"
-				android:layout_centerVertical="true"
+                android:layout_centerVertical="true"
+                android:maxWidth="10dp"
                 android:src="@drawable/feed_nonactive" />
             
         </RelativeLayout>
@@ -145,8 +146,8 @@
             
             <ImageView
                 android:id="@+id/mapImageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_centerHorizontal="true"
 				android:layout_centerVertical="true"
                 android:src="@drawable/map_nonactive" />
@@ -160,8 +161,8 @@
             
             <ImageView
                 android:id="@+id/settingsImageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_centerHorizontal="true"
 				android:layout_centerVertical="true"
                 android:src="@drawable/settings_nonactive" />
