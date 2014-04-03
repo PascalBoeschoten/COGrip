@@ -5,18 +5,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.media.AudioManager;
-import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 public class BluetoothService extends Service {
@@ -32,33 +30,9 @@ public class BluetoothService extends Service {
 	private OutputStream mOutputStream;
 	private InputStream mInputStream;
 	private Thread mWorkerThread;
-	private boolean mIsConnected;
 
 	private String TAG = this.getClass().getSimpleName();
 	private AudioManager mAudioManager;
-
-	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(REQUESTSTATE_ACTION)) {
-				broadcastState();
-			} else {
-				Log.d(TAG, "Received unknown intent " + intent);
-			}
-		}
-	};
-
-	public static final String REQUESTSTATE_ACTION = "request-bluetooth-state";
-	public static final String STATE_ACTION = "bluetooth-state";
-	public static final String CONNECTED_EXTRA_KEY = "connected";
-
-	public void broadcastState() {
-		Log.d(TAG, "Broadcasting state");
-		Intent i = new Intent(STATE_ACTION);
-		i.putExtra(CONNECTED_EXTRA_KEY, mIsConnected);
-		LocalBroadcastManager.getInstance(this).sendBroadcast(i);
-	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -105,6 +79,7 @@ public class BluetoothService extends Service {
 			private boolean stopWorker;
 
 			public void run() {
+				Log.d(TAG, "Starting to receive...");
 				while (!Thread.currentThread().isInterrupted() && !stopWorker) {
 					try {
 						int bytesAvailable = mInputStream.available();
@@ -116,6 +91,11 @@ public class BluetoothService extends Service {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+				}
+				try {
+					mSocket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		});
@@ -159,14 +139,6 @@ public class BluetoothService extends Service {
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
-	
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		
-		LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver,
-				new IntentFilter(REQUESTSTATE_ACTION));
-	}
 
 	@Override
 	public void onDestroy() {
@@ -175,8 +147,6 @@ public class BluetoothService extends Service {
 		if (mWorkerThread != null) {
 			mWorkerThread.interrupt();
 		}
-		
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
 	}
 
 	public static void launchService(Context context) {
@@ -190,9 +160,17 @@ public class BluetoothService extends Service {
 		Intent i = new Intent(context, BluetoothService.class);
 		context.stopService(i);
 	}
-	
-	public static void requestState(Context context) {
-		Intent i = new Intent(BluetoothService.REQUESTSTATE_ACTION);
-		LocalBroadcastManager.getInstance(context).sendBroadcast(i);
+
+	public static boolean isRunning(Context context) {
+		ActivityManager manager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		for (RunningServiceInfo service : manager
+				.getRunningServices(Integer.MAX_VALUE)) {
+			if (BluetoothService.class.getName().equals(
+					service.service.getClassName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
