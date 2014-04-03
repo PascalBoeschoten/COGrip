@@ -16,29 +16,125 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
-        android:layout_above="@+id/mainFooter">
+        android:layout_above="@+id/mainMarkerInfoContainer">
+        
+        <RelativeLayout 
+            android:id="@+id/mainDescriptionContainer"
+            android:layout_width="200dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/title_map">
+            
+            
+        </RelativeLayout>
+        <RelativeLayout 
+            android:id="@+id/mainDelimiterGreen"
+            android:layout_width="fill_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/mainDescriptionContainer"
+            android:background="#c4e50c">
+            
+        </RelativeLayout>
+        
         
         <FrameLayout
         android:id="@+id/mainScreenFragment"
+        android:layout_below="@+id/mainDelimiterGreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/mainMarkerInfoContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:layout_above="@+id/mainFooter"
+        android:paddingLeft="20dp"
+        android:orientation="horizontal">
+        
+      	<ImageView
+      	    android:id="@+id/mainMarkerInfoLeftImage"
+            android:layout_width="25dp"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:src="@drawable/pin_map_info" 
+            android:layout_gravity="center_vertical"/>
+      	
+      	<LinearLayout 
+      	    android:id="@+id/mainMarkerLinearSub"
+      	    android:layout_height="fill_parent"
+      	    android:layout_width="wrap_content"
+      	    android:layout_marginLeft="10dp"
+      	    android:layout_marginTop="5dp"
+      	    android:layout_toRightOf="@+id/mainMarkerInfoLeftImage"
+      	    android:orientation="vertical">
+      	    
+      	    <TextView 
+      	        android:id="@+id/markerStreet"
+      	        android:layout_width="wrap_content"
+      	        android:layout_height="wrap_content"
+      	        android:text="somestreetnamestreet 54"
+      	        android:textSize="12dp"/>
+      	    <TextView 
+      	        android:id="@+id/markerZip"
+      	        android:layout_width="wrap_content"
+      	        android:layout_height="wrap_content"
+      	        android:text="4321 Amsterdam"
+      	        android:textSize="12dp"/>
+      	    <TextView 
+      	        android:id="@+id/markerDate"
+      	        android:layout_width="wrap_content"
+      	        android:layout_height="wrap_content"
+      	        android:text="14:43 - 10/04/2014"
+      	        android:textColor="#c4e50c"
+      	        android:textSize="12dp"/>
+      	    
+      	</LinearLayout>
+      	
+      	<RelativeLayout 
+      	    android:layout_width="wrap_content"
+      	    android:layout_height="fill_parent"
+      	    android:paddingRight="30dp"
+      	    android:layout_alignParentRight="true">
+		      	<ImageView
+		            android:layout_width="100dp"
+		            android:layout_height="32dp"
+		            android:layout_marginTop="3dp"
+		            android:layout_marginBottom="3dp"
+		            android:src="@drawable/stresslevel_1"
+		            android:layout_centerHorizontal="true"
+		            android:layout_centerVertical="true"/>
+		</RelativeLayout>
+		        
+        
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/mainFooter"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/footer_big"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:orientation="horizontal">
         
         <RelativeLayout 
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="fill_parent">
-            
 
+            <ImageView
+                android:id="@+id/feedImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+                android:src="@drawable/feed_nonactive" />
             
         </RelativeLayout>
         
@@ -47,7 +143,13 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent">
             
-            
+            <ImageView
+                android:id="@+id/mapImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+                android:src="@drawable/map_nonactive" />
             
         </RelativeLayout>
         
@@ -56,10 +158,17 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent">
             
+            <ImageView
+                android:id="@+id/settingsImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+                android:src="@drawable/settings_nonactive" />
+            
         </RelativeLayout>
         
         
-
     </LinearLayout>
 
 </RelativeLayout>

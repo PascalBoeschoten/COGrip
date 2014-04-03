@@ -1,5 +1,6 @@
 package com.example.map;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -9,14 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.entity.CrowdPoint;
+import com.example.main.MainScreen;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MyMapFragment extends MapFragment
@@ -24,21 +30,22 @@ public class MyMapFragment extends MapFragment
 	private View rootView;
 	private Inflater inflater;
 	private LatLngBounds.Builder builder;
-	private List crowdedList;
+	private ArrayList<CrowdPoint> cpList;
+	private MainScreen parent;
 	
-	public static MyMapFragment newInstance() {
+	public static MyMapFragment newInstance(MainScreen parent) {
 		MyMapFragment fragment = new MyMapFragment();
-		//fragment.setCrowdedList(crowdedList);
+		fragment.setParent(parent);
 		return fragment;
+	}
+	
+	public void setParent(MainScreen parent)
+	{
+		this.parent = parent;
 	}
 	
 	public MyMapFragment() {
 
-	}
-	
-	public void setCrowdedList(List<CrowdPoint> crowdedList)
-	{
-		this.crowdedList = crowdedList;
 	}
 	
 	//TODO: fix
@@ -87,8 +94,36 @@ public class MyMapFragment extends MapFragment
 	    });
 	}
 	
-	public void addMarker(LatLng latlng, int crowdness)
+	public void addMarker(final ArrayList<CrowdPoint> cpList)
 	{
-		getMap().addMarker(new MarkerOptions().position(latlng));
+		if (getMap() != null)
+		{
+			this.cpList = cpList;
+			
+			for (int n=0;n<this.cpList.size();n++)
+			{
+				CrowdPoint cp = cpList.get(n);
+				Marker marker = getMap().addMarker(new MarkerOptions()
+					.position(cp.getLatLng())
+					.icon(BitmapDescriptorFactory.fromResource(com.example.cogrip_project.R.drawable.pin_map_normal)));
+				
+				marker.setTitle("0");
+			}
+			
+			getMap().setOnMarkerClickListener(new OnMarkerClickListener()
+			{
+				@Override
+				public boolean onMarkerClick(Marker arg0) {
+					setMarkerInfo(cpList.get(Integer.valueOf(arg0.getTitle())));
+					return true;
+				}
+			});
+		}
 	}
+	
+	private void setMarkerInfo(CrowdPoint cp)
+	{
+		parent.setMarkerInfo(cp);
+	}
+	
 }

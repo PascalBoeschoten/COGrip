@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.entity.CrowdPoint;
 import com.google.android.gms.maps.model.LatLng;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -18,7 +19,7 @@ import com.loopj.android.http.RequestParams;
 
 public class WebRequests
 {
-	private static final String BASE_URL 					=		"http://vasternorrlanuf.se/jakob/amsterdam/websrv.php?";
+	private static final String BASE_URL 					=		"http://jackesa.com/amsterdam/websrv.php?";
 	private static final String uploadSensorDataURL 		= 		"uploadSensorData";
 	private static final String getNearbyCrowdedAreasURL 	= 		"getNearbyCrowdedAreas";
 	private static final String WEBSHOP_ITEMS_URL 			= 		".product/getAll";
@@ -37,13 +38,16 @@ public class WebRequests
 	    return BASE_URL + relativeUrl;
 	}
 	
-	//------------METHODS-----------------------------------------
-	public static void uploadSensorData(Context context, LatLng latlng, int crowdness, AsyncHttpResponseHandler handler)
+	//------------Helper METHODS-----------------------------------------
+	public static void uploadSensorData(Context context, CrowdPoint cp, AsyncHttpResponseHandler handler)
 	{
 		RequestParams params = new RequestParams();
-		params.put("Lat", String.valueOf(latlng.latitude));
-		params.put("Lng", String.valueOf(latlng.longitude));
-		params.put("Crowdness", String.valueOf(crowdness));
+		params.put("Lat", String.valueOf(cp.getLatLng().latitude));
+		params.put("Lng", String.valueOf(cp.getLatLng().longitude));
+		params.put("Street", cp.getStreet());
+		params.put("Zip", cp.getZip());
+		params.put("Date", cp.getDate());
+		params.put("Crowdness", String.valueOf(cp.getCrowdness()));
 		get(uploadSensorDataURL, params, handler);
 	}
 	

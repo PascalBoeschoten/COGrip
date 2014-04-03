@@ -32,33 +32,23 @@
             android:name="com.example.cogrip_project.BluetoothActivity"
             android:label="COGripBluetoothActivity"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.example.cogrip_project.Walkthrough_activity"
             android:label="@string/title_activity_walkthrough_activity"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.example.map.MainWrapper"
             android:label="@string/title_activity_main_wrapper"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.example.main.MainScreen"
             android:label="Mainscreen"
             android:screenOrientation="portrait" >
-            <intent-filter>
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -1,26 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp" >
 
-    <ImageView
-        android:id="@+id/listview_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="5dp"
-        android:src="@drawable/ic_launcher" >
-    </ImageView>
-
-    <TextView
-        android:id="@+id/listview_label"
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listViewContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="center_vertical"
-        android:text="mada"
-        android:textSize="20sp" 
-        android:textColor="#FFFFFF">
-    </TextView>
-
-</LinearLayout> 
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:orientation="horizontal">
+        
+     	<!--  Row1 -->
+     	<LinearLayout 
+     	    android:id="@+id/firstRowContainer"
+     	    android:layout_width="wrap_content"
+     	    android:layout_height="wrap_content"
+     	    android:layout_marginTop="5dp"
+     	    android:layout_marginLeft="10dp"
+     	    android:orientation="horizontal">
+     	    
+     	    <RelativeLayout 
+     	        android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content">
+     	        
+     	         <ImageView
+		      	    android:id="@+id/clockIcon"
+		            android:layout_width="30dp"
+		            android:layout_height="30dp"
+		            android:src="@drawable/clock" 
+		            android:layout_gravity="center_vertical"/>
+     	        
+     	    </RelativeLayout>
+     	    
+     	    <RelativeLayout 
+     	        android:layout_width="wrap_content"
+     	        android:layout_height="fill_parent"
+     	        android:paddingLeft="5dp">
+      	    
+	     		<TextView 
+	      	        android:id="@+id/listViewDate"
+	      	        android:layout_width="wrap_content"
+	      	        android:layout_height="wrap_content"
+	      	        android:text="14:43 - 10/04/2014"
+	      	        android:textColor="#c4e50c"
+	      	        android:textSize="14dp"
+	      	        android:layout_centerVertical="true"/>
+     		</RelativeLayout>
+     	</LinearLayout>
+     	<!-- END OF ROW1 -->
+      	
+      	<!-- ROW2 -->
+      	<LinearLayout 
+      	    android:id="@+id/secondRowContainer"
+      	    android:layout_height="wrap_content"
+      	    android:layout_width="wrap_content"
+      	    android:layout_marginLeft="10dp"
+      	    android:layout_marginTop="5dp"
+      	    android:layout_below="@+id/firstRowContainer"
+      	    android:orientation="horizontal">
+	     		
+      	    <RelativeLayout 
+     	        android:layout_width="wrap_content"
+     	        android:layout_height="wrap_content">
+     	        
+		      	<ImageView
+		      	    android:id="@+id/listViewGPS"
+		            android:layout_width="30dp"
+		            android:layout_height="50dp"
+		            android:src="@drawable/pin_map_info" 
+		            android:layout_gravity="center_vertical"/>
+	      	</RelativeLayout>
+		      
+      	    
+      	    
+   	        <RelativeLayout 
+	   	        android:layout_width="wrap_content"
+	   	        android:layout_height="wrap_content"
+	   	        android:layout_centerVertical="true">
+		      	
+	   	            <LinearLayout
+			    	    android:layout_width="wrap_content"
+			    	    android:layout_height="wrap_content"
+			    	    android:layout_marginTop="5dp"
+			    	    android:paddingLeft="5dp"
+			    	    android:orientation="vertical">
+	   	            
+		     	    <TextView 
+		     	        android:id="@+id/listViewStreet"
+		     	        android:layout_width="wrap_content"
+		     	        android:layout_height="wrap_content"
+		     	        android:text="somestreetnamestreet 54"
+		     	        android:textSize="14dp"/>
+		     	    <TextView 
+		     	        android:id="@+id/listViewZip"
+		     	        android:layout_width="wrap_content"
+		     	        android:layout_height="wrap_content"
+		     	        android:layout_below="@+id/listViewStreet"
+		     	        android:text="4321 Amsterdam"
+		     	        android:textSize="14dp"/>
+		     	    </LinearLayout>
+	    	    </RelativeLayout>
+      	    
+      	</LinearLayout>
+      	
+      	<RelativeLayout 
+      	    android:layout_width="wrap_content"
+      	    android:layout_height="wrap_content"
+      	    android:layout_alignParentRight="true">
+		      	<ImageView
+		            android:layout_width="100dp"
+		            android:layout_height="85dp"
+		            android:layout_marginTop="3dp"
+		            android:layout_marginBottom="3dp"
+		            android:src="@drawable/map_small"
+		            android:layout_centerHorizontal="true"
+		            android:layout_centerVertical="true"/>
+		</RelativeLayout>
+		        
+        
+    </RelativeLayout>

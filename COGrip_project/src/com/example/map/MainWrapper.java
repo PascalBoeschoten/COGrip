@@ -151,7 +151,7 @@ public class MainWrapper extends Activity {
         	if (position == 1)
         	{
     	    	//Loads a map into the fragment
-        		myMapFragment = MyMapFragment.newInstance();
+        		//myMapFragment = MyMapFragment.newInstance();
     	        FragmentManager fragmentManager = getFragmentManager();
     	        fragmentManager.beginTransaction().replace(R.id.content_frame, myMapFragment).commit();
     	        
@@ -190,7 +190,7 @@ public class MainWrapper extends Activity {
 						int crowdness 	= Integer.valueOf(jObj.get("crowdness").toString());
 						LatLng latlng 	= new LatLng(lat, lng);
 						
-						myMapFragment.addMarker(latlng, 4);
+						//myMapFragment.addMarker(latlng, 4);
 					} 
 					catch (JSONException e) 
 					{
