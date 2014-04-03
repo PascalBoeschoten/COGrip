@@ -42,13 +42,14 @@ public class WebRequests
 	public static void uploadSensorData(Context context, CrowdPoint cp, AsyncHttpResponseHandler handler)
 	{
 		RequestParams params = new RequestParams();
+		params.put("uploadSensorData", "blabla");
 		params.put("Lat", String.valueOf(cp.getLatLng().latitude));
 		params.put("Lng", String.valueOf(cp.getLatLng().longitude));
 		params.put("Street", cp.getStreet());
 		params.put("Zip", cp.getZip());
 		params.put("Date", cp.getDate());
 		params.put("Crowdness", String.valueOf(cp.getCrowdness()));
-		get(uploadSensorDataURL, params, handler);
+		post(uploadSensorDataURL, params, handler);
 	}
 	
 	public static void getNearbyCrowdedAreas(Context context, LatLng latlng, JsonHttpResponseHandler handler)
