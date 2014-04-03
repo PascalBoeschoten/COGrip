@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 public class BluetoothService extends Service {
 
@@ -33,6 +34,11 @@ public class BluetoothService extends Service {
 
 	private String TAG = this.getClass().getSimpleName();
 	private AudioManager mAudioManager;
+	
+	public void abortStartup() {
+		Toast.makeText(this, "BluetoothService: couldn't connect", Toast.LENGTH_SHORT).show();
+		stopSelf();
+	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -44,7 +50,7 @@ public class BluetoothService extends Service {
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
 		if (!mBluetoothAdapter.isEnabled()) {
-			stopSelf();
+			abortStartup();
 			return START_STICKY;
 		}
 
@@ -59,7 +65,7 @@ public class BluetoothService extends Service {
 
 		if (mDevice == null) {
 			Log.d(TAG, "Couldn't find paired device " + ARDUINODEVICENAME);
-			stopSelf();
+			abortStartup();
 			return START_STICKY;
 		}
 
@@ -71,7 +77,7 @@ public class BluetoothService extends Service {
 			mInputStream = mSocket.getInputStream();
 		} catch (IOException e) {
 			e.printStackTrace();
-			stopSelf();
+			abortStartup();
 			return START_STICKY;
 		}
 
