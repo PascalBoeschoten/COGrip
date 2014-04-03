@@ -18,6 +18,10 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.entity.CrowdPoint;
+import com.example.webrequests.WebRequestHelper;
+import com.google.android.gms.maps.model.LatLng;
+
 public class BluetoothService extends Service {
 
 	// Standard SerialPortService ID
@@ -93,6 +97,7 @@ public class BluetoothService extends Service {
 							char received = (char) mInputStream.read();
 							Log.d(TAG, "Received " + (char) received);
 							handleVolumeChange(received);
+							sendToDatabase(received);
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -111,6 +116,12 @@ public class BluetoothService extends Service {
 		return Service.START_STICKY;
 	}
 
+	protected void sendToDatabase(char volumeChar)
+	{
+		CrowdPoint cp = new CrowdPoint(new LatLng(45435, 234), "Malstreet", "2343 23", "2014-04-03", Integer.parseInt(String.valueOf(volumeChar)));
+		//WebRequestHelper.sendSensorData(cp, this);
+	}
+	
 	protected void handleVolumeChange(char volumeChar) {
 		int volume;
 		try {
