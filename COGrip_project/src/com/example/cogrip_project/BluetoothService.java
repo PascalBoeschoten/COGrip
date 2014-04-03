@@ -38,9 +38,10 @@ public class BluetoothService extends Service {
 
 	private String TAG = this.getClass().getSimpleName();
 	private AudioManager mAudioManager;
-	
+
 	public void abortStartup() {
-		Toast.makeText(this, "BluetoothService: couldn't connect", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "BluetoothService: couldn't connect",
+				Toast.LENGTH_SHORT).show();
 		stopSelf();
 	}
 
@@ -111,17 +112,24 @@ public class BluetoothService extends Service {
 			}
 		});
 		mWorkerThread.start();
-		Toast.makeText(this, "BluetoothService: connected", Toast.LENGTH_SHORT).show();
-		
+		Toast.makeText(this, "BluetoothService: connected", Toast.LENGTH_SHORT)
+				.show();
+
 		return Service.START_STICKY;
 	}
 
-	protected void sendToDatabase(char volumeChar)
-	{
-		CrowdPoint cp = new CrowdPoint(new LatLng(45435, 234), "Malstreet", "2343 23", "2014-04-03", Integer.parseInt(String.valueOf(volumeChar)));
-		//WebRequestHelper.sendSensorData(cp, this);
+	protected void sendToDatabase(char volumeChar) {
+		try {
+			CrowdPoint cp = new CrowdPoint(new LatLng(45435, 234), "Malstreet",
+					"2343 23", "2014-04-03", Integer.parseInt(String
+							.valueOf(volumeChar)));
+		} catch (NumberFormatException e) {
+			Log.d(TAG, "Received unknown volume level char '" + volumeChar
+					+ "'");
+		}
+		// WebRequestHelper.sendSensorData(cp, this);
 	}
-	
+
 	protected void handleVolumeChange(char volumeChar) {
 		int volume;
 		try {
