@@ -106,7 +106,8 @@ public class BluetoothService extends Service {
 			}
 		});
 		mWorkerThread.start();
-
+		Toast.makeText(this, "BluetoothService: connected", Toast.LENGTH_SHORT).show();
+		
 		return Service.START_STICKY;
 	}
 

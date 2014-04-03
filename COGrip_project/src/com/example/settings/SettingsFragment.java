@@ -39,6 +39,8 @@ public class SettingsFragment extends Fragment {
 		mBluetoothToggleButton = (ToggleButton) rootView.findViewById(
 				R.id.bluetoothToggleButton);
 		
+		mBluetoothToggleButton.setChecked(BluetoothService.isRunning(getActivity()));
+		
 		mBluetoothToggleButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
